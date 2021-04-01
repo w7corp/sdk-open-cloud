@@ -1,0 +1,28 @@
+{
+	"name": "w7corp/sdk-cloud",
+	"description": "微擎云服务更新SDK",
+	"type": "library",
+	"authors": [
+		{
+			"name": "we7team",
+			"email": "donknap@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"W7\\": "Src/",
+			"W7\\Sdk\\Cloud\\Tests\\": "tests/",
+			"W7\\Sdk\\Cloud\\": "Src/"
+		}
+	},
+	"require": {
+		"guzzlehttp/guzzle": "^6.3",
+		"ext-json": "*",
+		"ext-curl": "*",
+		"ext-zlib": "*"
+	},
+	"require-dev": {
+		"w7/php-cs-fixer": "^1.0",
+		"phpunit/phpunit": "^8.2"
+	}
+}
