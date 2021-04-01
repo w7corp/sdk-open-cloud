@@ -2,6 +2,7 @@
 	"name": "w7corp/sdk-cloud",
 	"description": "微擎云服务更新SDK",
 	"type": "library",
+	"license": "Apache-2.0",
 	"authors": [
 		{
 			"name": "we7team",
@@ -16,7 +17,7 @@
 		}
 	},
 	"require": {
-		"guzzlehttp/guzzle": "^6.3",
+		"guzzlehttp/guzzle": "^7.3",
 		"ext-json": "*",
 		"ext-curl": "*",
 		"ext-zlib": "*"
