@@ -15,7 +15,8 @@ namespace W7\Api\App\Login;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class QrScan extends We7Request {
+class QrScan extends We7Request
+{
 	use SiteInfoTraiter;
 
 	protected $apiPath = '/wxapp/login/qr-scan';
@@ -24,12 +25,14 @@ class QrScan extends We7Request {
 	/**
 	 * @param mixed $uuid
 	 */
-	public function setUuid($uuid) {
+	public function setUuid($uuid)
+	{
 		$this->uuid = $uuid;
 		return $this;
 	}
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息');
 		}
@@ -37,7 +40,7 @@ class QrScan extends We7Request {
 			throw new \RuntimeException('缺少参数');
 		}
 
-		$data = $this->siteInfo->toArray();
+		$data         = $this->siteInfo->toArray();
 		$data['uuid'] = $this->uuid;
 
 		return parent::post($data);

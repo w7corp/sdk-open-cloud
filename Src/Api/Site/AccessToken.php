@@ -15,24 +15,27 @@ namespace W7\Api\Site;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class AccessToken extends We7Request {
+class AccessToken extends We7Request
+{
 	use SiteInfoTraiter;
 
-	protected $method = 'site.access_token';
+	protected $method  = 'site.access_token';
 	protected $apiPath = '/site/accesstoken/with-js-token';
 
-	public function getByJsToken($jsToken) {
+	public function getByJsToken($jsToken)
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
 
-		$data = $this->siteInfo->toArray();
-		$data['method'] = $data['method'] ?? $this->method;
+		$data             = $this->siteInfo->toArray();
+		$data['method']   = $data['method'] ?? $this->method;
 		$data['js_token'] = $jsToken;
 		return parent::post($data);
 	}
 
-	protected function decode($method, $response) {
+	protected function decode($method, $response)
+	{
 		return json_decode($response, true);
 	}
 }

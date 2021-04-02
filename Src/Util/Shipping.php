@@ -15,16 +15,18 @@ namespace W7\Sdk\Cloud\Util;
 use W7\Sdk\Cloud\Exception\InstallProtectException;
 use W7\Sdk\Cloud\Exception\ServiceExpireException;
 
-class Shipping {
+class Shipping
+{
 	use InstanceTraiter;
 
-	public function decode($data, $fileContent) {
+	public function decode($data, $fileContent)
+	{
 		if (Common::is_error($data)) {
 			throw new \RuntimeException('网络传输错误, 请检查您的cURL是否可用, 或者服务器网络是否正常. ' . $data['message']);
 		}
 
-		if ($data == 'install-theme-protect' || $data == 'install-module-protect') {
-			throw new InstallProtectException('此' . ($data == 'install-theme-protect' ? '模板' : '模块') . '已设置版权保护，您只能通过云平台来安装，请先删除该模块的所有文件，购买后再行安装。');
+		if ('install-theme-protect' == $data || 'install-module-protect' == $data) {
+			throw new InstallProtectException('此' . ('install-theme-protect' == $data ? '模板' : '模块') . '已设置版权保护，您只能通过云平台来安装，请先删除该模块的所有文件，购买后再行安装。');
 		}
 
 		$content = json_decode($data, true);
@@ -34,28 +36,28 @@ class Shipping {
 		}
 
 		if (!empty($content) && is_array($content)) {
-			if (!empty($content['data']) && $content['data'] == 'success') {
+			if (!empty($content['data']) && 'success' == $content['data']) {
 				return true;
 			}
-			if (!empty($content[0]) && $content[0] == 'success') {
+			if (!empty($content[0]) && 'success' == $content[0]) {
 				return true;
 			}
 			return $content;
 		}
 
-		if (strlen($data) != 32) {
+		if (32 != strlen($data)) {
 			$message = Common::unserialize($data);
 			if (is_array($message) && Common::is_error($message)) {
 				throw new \RuntimeException($message['message']);
 			}
 
-			if ($data == 'patching') {
+			if ('patching' == $data) {
 				throw new \RuntimeException('补丁程序正在更新中，请稍后再试！');
 			}
-			if ($data == 'frequent') {
+			if ('frequent' == $data) {
 				throw new \RuntimeException('更新操作太频繁，请稍后再试！');
 			}
-			if ($data == 'blacklist') {
+			if ('blacklist' == $data) {
 				throw new \RuntimeException('抱歉，您的站点已被列入云服务黑名单，云服务一切业务已被禁止，请联系微擎客服！');
 			}
 
@@ -84,15 +86,15 @@ class Shipping {
 		$result = Common::unserialize($result['data']);
 
 		if (is_array($result) && Common::is_error($result)) {
-			if ($result['errno'] == '-3') { //模块升级服务到期
+			if ('-3' == $result['errno']) { //模块升级服务到期
 				throw new ServiceExpireException($result['message'], $result['errno']);
 			}
 		}
 		if (!Common::is_error($result) && is_array($result)) {
-			if (!empty($result) && !empty($result['state']) && $result['state'] == 'fatal') {
+			if (!empty($result) && !empty($result['state']) && 'fatal' == $result['state']) {
 				throw new \RuntimeException('发生错误: ' . $result['message'], $result['errno']);
 			}
-			if (!empty($result[0]) && $result[0] == 'success') {
+			if (!empty($result[0]) && 'success' == $result[0]) {
 				return true;
 			}
 			return $result;

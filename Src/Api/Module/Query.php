@@ -16,21 +16,23 @@ use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\InstanceTraiter;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Query extends We7Request {
+class Query extends We7Request
+{
 	protected $apiPath = '/module/query';
-	protected $method = 'module.query';
+	protected $method  = 'module.query';
 
 	protected $module = '';
-	protected $page = 0;
+	protected $page   = 0;
 
 	use SiteInfoTraiter;
 	use InstanceTraiter;
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
-		$data = $this->siteInfo->toArray();
+		$data           = $this->siteInfo->toArray();
 		$data['method'] = $this->method;
 		$data['module'] = $this->module;
 		if (!empty($this->page)) {
@@ -43,7 +45,8 @@ class Query extends We7Request {
 	 * @param int $page
 	 * @return Query
 	 */
-	public function setPage(int $page) {
+	public function setPage(int $page)
+	{
 		$this->page = $page;
 		return $this;
 	}
@@ -52,7 +55,8 @@ class Query extends We7Request {
 	 * @param mixed $module
 	 * @return Query
 	 */
-	public function setSyncModule($module) {
+	public function setSyncModule($module)
+	{
 		$this->module = $module;
 		return $this;
 	}

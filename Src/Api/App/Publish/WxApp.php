@@ -15,7 +15,8 @@ namespace W7\Api\App\Publish;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class WxApp extends We7Request {
+class WxApp extends We7Request
+{
 	use SiteInfoTraiter;
 
 	protected $apiPath = '/wxapp/publish';
@@ -55,14 +56,15 @@ class WxApp extends We7Request {
 	 * 正式发布时必须填入发布信息，
 	 */
 	protected $publishInfo = [
-		'version' => '',
+		'version'     => '',
 		'description' => ''
 	];
 
 	/**
 	 * @param mixed $name
 	 */
-	public function setName($name) {
+	public function setName($name)
+	{
 		$this->name = $name;
 		return $this;
 	}
@@ -70,7 +72,8 @@ class WxApp extends We7Request {
 	/**
 	 * @param mixed $version
 	 */
-	public function setVersion($version) {
+	public function setVersion($version)
+	{
 		$this->version = $version;
 		return $this;
 	}
@@ -78,7 +81,8 @@ class WxApp extends We7Request {
 	/**
 	 * @param mixed $ticket
 	 */
-	public function setTicket($ticket) {
+	public function setTicket($ticket)
+	{
 		$this->ticket = $ticket;
 		return $this;
 	}
@@ -86,7 +90,8 @@ class WxApp extends We7Request {
 	/**
 	 * @param mixed $appId
 	 */
-	public function setAppId($appId) {
+	public function setAppId($appId)
+	{
 		$this->appId = $appId;
 		return $this;
 	}
@@ -94,7 +99,8 @@ class WxApp extends We7Request {
 	/**
 	 * @param mixed $appJson
 	 */
-	public function setAppJson(string $appJson) {
+	public function setAppJson(string $appJson)
+	{
 		$this->appJson = $appJson;
 		return $this;
 	}
@@ -103,25 +109,29 @@ class WxApp extends We7Request {
 	 * @param string $version
 	 * @param string $description
 	 */
-	public function setPublishInfo(string $version, string $description) {
+	public function setPublishInfo(string $version, string $description)
+	{
 		$this->publishInfo = [
-			'version' => $version,
+			'version'     => $version,
 			'description' => $description
 		];
 		return $this;
 	}
 
-	public function enablePreivew() {
+	public function enablePreivew()
+	{
 		$this->isPreview = true;
 		return $this;
 	}
 
-	public function enableAccountWxapp() {
+	public function enableAccountWxapp()
+	{
 		$this->isAccountWxapp = true;
 		return $this;
 	}
 
-	public function enableClearLivePlayerPlugin() {
+	public function enableClearLivePlayerPlugin()
+	{
 		$this->clearLivePlayerPlugin = true;
 		return $this;
 	}
@@ -129,12 +139,14 @@ class WxApp extends We7Request {
 	/**
 	 * @param array $toMiniProgram
 	 */
-	public function setToMiniProgram(array $toMiniProgram) {
+	public function setToMiniProgram(array $toMiniProgram)
+	{
 		$this->toMiniProgram = $toMiniProgram;
 		return $this;
 	}
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息');
 		}
@@ -150,22 +162,22 @@ class WxApp extends We7Request {
 			}
 		}
 
-		$data = $this->siteInfo->toArray();
+		$data           = $this->siteInfo->toArray();
 		$data['module'] = [
-			'name' => $this->name,
+			'name'    => $this->name,
 			'version' => $this->version
 		];
 		$data['publish'] = [
-			'version' => $this->publishInfo['version'],
+			'version'     => $this->publishInfo['version'],
 			'description' => $this->publishInfo['description'],
 		];
-		$data['preview'] = $this->isPreview;
+		$data['preview']                  = $this->isPreview;
 		$data['clear_live_player_plugin'] = $this->clearLivePlayerPlugin;
-		$data['wxapp_type'] = $this->isAccountWxapp;
-		$data['tominiprogram'] = $this->toMiniProgram;
-		$data['appjson'] = $this->appJson;
-		$data['appid'] = $this->appId;
-		$data['ticket'] = $this->ticket;
+		$data['wxapp_type']               = $this->isAccountWxapp;
+		$data['tominiprogram']            = $this->toMiniProgram;
+		$data['appjson']                  = $this->appJson;
+		$data['appid']                    = $this->appId;
+		$data['ticket']                   = $this->ticket;
 
 		return parent::post($data);
 	}

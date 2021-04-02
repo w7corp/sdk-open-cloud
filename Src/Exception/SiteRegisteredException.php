@@ -12,5 +12,6 @@
 
 namespace W7\Sdk\Cloud\Exception;
 
-class SiteRegisteredException extends \Exception {
+class SiteRegisteredException extends \Exception
+{
 }

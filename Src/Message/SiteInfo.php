@@ -12,7 +12,8 @@
 
 namespace W7\Sdk\Cloud\Message;
 
-final class SiteInfo {
+final class SiteInfo
+{
 	/**
 	 * 站点id
 	 */
@@ -70,23 +71,25 @@ final class SiteInfo {
 
 	private $version;
 
-	public function toArray() {
+	public function toArray()
+	{
 		if (empty($this->key) || empty($this->host) || (empty($this->password) && empty($this->token))) {
 			throw new \RuntimeException('站点信息不完整');
 		}
 
-		$info = array(
-			'key' => $this->key,
-			'host' => $this->host,
-			'method' => $this->method,
-			'family' => $this->family,
-			'version' => $this->version,
-			'release' => $this->release,
-			'password' => $this->password ?: md5($this->key . $this->token),
+		$info = [
+			'key'         => $this->key,
+			'host'        => $this->host,
+			'method'      => $this->method,
+			'family'      => $this->family,
+			'version'     => $this->version,
+			'release'     => $this->release,
+			'password'    => $this->password ?: md5($this->key . $this->token),
 			'php_version' => PHP_VERSION,
-			'current_host' => strpos($_SERVER['HTTP_HOST'], ':') !== false ? parse_url($_SERVER['HTTP_HOST'], PHP_URL_HOST) : $_SERVER['HTTP_HOST'],
-		);
-
+		];
+		if (!preg_match('/cli/i', php_sapi_name())) {
+			$info['current_host'] = false !== strpos($_SERVER['HTTP_HOST'], ':') ? parse_url($_SERVER['HTTP_HOST'], PHP_URL_HOST) : $_SERVER['HTTP_HOST'];
+		}
 		if (!empty($this->file)) {
 			$info['file'] = $this->file;
 		}
@@ -94,38 +97,46 @@ final class SiteInfo {
 		return $info;
 	}
 
-	public function setKey($key) {
+	public function setKey($key)
+	{
 		$this->key = $key;
 	}
 
-	public function setFamily($family) {
+	public function setFamily($family)
+	{
 		$this->family = $family;
 	}
 
-	public function setRelease($release) {
+	public function setRelease($release)
+	{
 		$this->release = $release;
 	}
 
-	public function setHost($host) {
+	public function setHost($host)
+	{
 		$this->host = $host;
 	}
 
-	public function setToken($token) {
+	public function setToken($token)
+	{
 		$this->token = $token;
 	}
 
-	public function setVersion($version) {
+	public function setVersion($version)
+	{
 		$this->version = $version;
 	}
 
-	public function setMethod($method) {
+	public function setMethod($method)
+	{
 		$this->method = $method;
 	}
 
 	/**
 	 * @param mixed $password
 	 */
-	public function setPassword($password) {
+	public function setPassword($password)
+	{
 		$this->password = $password;
 	}
 }

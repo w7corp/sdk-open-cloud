@@ -15,18 +15,17 @@ namespace W7\Api\Site;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Build extends We7Request {
+class Build extends We7Request
+{
 	use SiteInfoTraiter;
 
 	protected $apiPath = '/site/build/index';
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
-//		if (empty($this->cache)) {
-//			throw new \RuntimeException('需要指定存储Cache');
-//		}
 		$data = $this->siteInfo->toArray();
 		return parent::post($data);
 	}

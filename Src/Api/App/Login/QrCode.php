@@ -15,12 +15,14 @@ namespace W7\Api\App\Login;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class QrCode extends We7Request {
+class QrCode extends We7Request
+{
 	use SiteInfoTraiter;
 
 	protected $apiPath = '/wxapp/login/qr-code';
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息');
 		}

@@ -16,9 +16,10 @@ use W7\Sdk\Cloud\Util\Common;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Build extends We7Request {
-	protected $apiPath = '/module/build';
-	protected $method = 'module.build';
+class Build extends We7Request
+{
+	protected $apiPath  = '/module/build';
+	protected $method   = 'module.build';
 	protected $postData = [];
 
 	protected $version;
@@ -28,25 +29,27 @@ class Build extends We7Request {
 
 	use SiteInfoTraiter;
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
 		if (empty($this->name)) {
 			throw new \RuntimeException('缺点模块名称');
 		}
-		$data = $this->siteInfo->toArray();
-		$data['module'] = $this->name;
+		$data                   = $this->siteInfo->toArray();
+		$data['module']         = $this->name;
 		$data['module_version'] = $this->version;
-		$data['method'] = $data['method'] ?? $this->method;
-		$data['type'] = $this->type;
+		$data['method']         = $data['method'] ?? $this->method;
+		$data['type']           = $this->type;
 
 		$this->postData = array_merge([], $this->postData, $data);
 
 		return parent::post($this->postData);
 	}
 
-	protected function decode($method, $response) {
+	protected function decode($method, $response)
+	{
 		$data = parent::decode($method, $response);
 		//保存transToken
 		if (!empty($data['token'])) {
@@ -59,7 +62,8 @@ class Build extends We7Request {
 	 * @param mixed $version
 	 * @return Build
 	 */
-	public function setVersion($version) {
+	public function setVersion($version)
+	{
 		$this->version = $version;
 		return $this;
 	}
@@ -68,7 +72,8 @@ class Build extends We7Request {
 	 * @param mixed $name
 	 * @return Build
 	 */
-	public function setName($name) {
+	public function setName($name)
+	{
 		$this->name = $name;
 		return $this;
 	}
@@ -77,7 +82,8 @@ class Build extends We7Request {
 	 * @param string $type
 	 * @return Build
 	 */
-	public function setType(string $type) {
+	public function setType(string $type)
+	{
 		$this->type = $type;
 		return $this;
 	}

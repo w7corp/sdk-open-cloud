@@ -12,7 +12,8 @@
 
 namespace W7\Api\Module;
 
-class Check extends Build {
+class Check extends Build
+{
 	protected $apiPath = '/module/check';
-	protected $method = 'module.check';
+	protected $method  = 'module.check';
 }

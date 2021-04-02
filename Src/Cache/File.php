@@ -14,15 +14,17 @@ namespace W7\Sdk\Cloud\Cache;
 
 use W7\Sdk\Cloud\Util\Common;
 
-class File implements CacheInterface {
+class File implements CacheInterface
+{
 	private $cachePath;
 
-	public function __construct($cachePath) {
+	public function __construct($cachePath)
+	{
 		if (empty($cachePath)) {
 			throw new \RuntimeException('必须指定缓存目录');
 		}
 
-		if (strpos($cachePath, './') !== false || strpos($cachePath, '../') !== false) {
+		if (false !== strpos($cachePath, './') || false !== strpos($cachePath, '../')) {
 			throw new \RuntimeException('路径必须为绝对路径');
 		}
 
@@ -33,19 +35,21 @@ class File implements CacheInterface {
 		$this->cachePath = trim($cachePath, '/');
 	}
 
-	public function save($key, $data) {
+	public function save($key, $data)
+	{
 		if (empty($data)) {
 			return true;
 		}
 
-		if (strpos($key, './') !== false || strpos($key, '../') !== false  || strpos($key, '/') !== false) {
+		if (false !== strpos($key, './') || false !== strpos($key, '../') || false !== strpos($key, '/')) {
 			throw new \RuntimeException('非法的名称');
 		}
 
 		return file_put_contents(sprintf('/%s/%s', $this->cachePath, $key), serialize($data));
 	}
 
-	public function load($key, $delete = true) {
+	public function load($key, $delete = true)
+	{
 		$cacheFile = sprintf('/%s/%s', $this->cachePath, $key);
 		if (!file_exists($cacheFile)) {
 			return '';

@@ -15,7 +15,8 @@ namespace W7\Api\Common;
 use W7\Sdk\Cloud\Cache\CacheInterface;
 use W7\Sdk\Cloud\Util\Common;
 
-class Callback {
+class Callback
+{
 	private $siteInfoHandler;
 	private $shippingFileHandler;
 
@@ -35,7 +36,8 @@ class Callback {
 
 	private $siteToken;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->registerPostInputStream(file_get_contents('php://input'));
 	}
 
@@ -43,7 +45,8 @@ class Callback {
 	 * 接口推送站点信息时
 	 * @param callable $handler
 	 */
-	public function registerSiteInfoHandler(callable $handler) {
+	public function registerSiteInfoHandler(callable $handler)
+	{
 		$this->siteInfoHandler = $handler;
 	}
 
@@ -51,7 +54,8 @@ class Callback {
 	 * 注册推送文件处理器
 	 * @param callable $handler
 	 */
-	public function registershippingFileHandler(callable $handler) {
+	public function registershippingFileHandler(callable $handler)
+	{
 		$this->shippingFileHandler = $handler;
 	}
 
@@ -59,7 +63,8 @@ class Callback {
 	 * 注册站点TOKEN，用于校验数据
 	 * @param string $token
 	 */
-	public function registerSiteToken($token) {
+	public function registerSiteToken($token)
+	{
 		$this->siteToken = $token;
 	}
 
@@ -69,7 +74,8 @@ class Callback {
 	 * @param string $postInput
 	 * @return bool
 	 */
-	public function registerPostInputStream($postInput) {
+	public function registerPostInputStream($postInput)
+	{
 		if (!empty($this->postInputStream)) {
 			return true;
 		}
@@ -84,13 +90,15 @@ class Callback {
 	 * 注册推送数据临时存放的目录
 	 * @param CacheInterface $cache
 	 */
-	public function registerCache(CacheInterface $cache) {
+	public function registerCache(CacheInterface $cache)
+	{
 		$this->cache = $cache;
 	}
 
-	public function dispatch() {
-		$action = $_SERVER[$this->actionParamName];
-		$allowAction = array(
+	public function dispatch()
+	{
+		$action      = $_SERVER[$this->actionParamName];
+		$allowAction = [
 			'auth',
 			'build',
 			'init',
@@ -106,7 +114,7 @@ class Callback {
 			'application.build',
 			'test',
 			'touch'
-		);
+		];
 		if (!in_array($action, $allowAction)) {
 			throw new \RuntimeException('操作不允许');
 		}
@@ -119,7 +127,8 @@ class Callback {
 		return $this->doShippingData($action);
 	}
 
-	private function doAuth() {
+	private function doAuth()
+	{
 		$siteInfo = json_decode(base64_decode($this->postInputStream), true);
 
 		$currentHost = htmlspecialchars((isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
@@ -128,39 +137,41 @@ class Callback {
 		}
 
 		if (is_callable($this->siteInfoHandler)) {
-			call_user_func_array($this->siteInfoHandler, array(
+			call_user_func_array($this->siteInfoHandler, [
 				$siteInfo
-			));
+			]);
 		}
 
 		return 'success';
 	}
 
-	public function doTouch() {
+	public function doTouch()
+	{
 		echo 'success';
 		exit;
 	}
 
-	private function doDownload() {
+	private function doDownload()
+	{
 		$result = Common::unserialize($this->postInputStream);
-		$gz = function_exists('gzcompress') && function_exists('gzuncompress');
-		$file = base64_decode($result['file']);
+		$gz     = function_exists('gzcompress') && function_exists('gzuncompress');
+		$file   = base64_decode($result['file']);
 		if ($gz) {
 			$file = gzuncompress($file);
 		}
 
 		$transtoken = $this->cache->load('trans.token', false);
 		$transtoken = Common::authcode($transtoken, 'DECODE');
-		$string = (md5($file) . $result['path'] . $transtoken);
+		$string     = (md5($file) . $result['path'] . $transtoken);
 
 		if (md5($string) === $result['sign']) {
 			if (is_callable($this->shippingFileHandler)) {
-				call_user_func_array($this->shippingFileHandler, array(
-					array(
+				call_user_func_array($this->shippingFileHandler, [
+					[
 						'path' => $result['path'],
 						'file' => $file,
-					)
-				));
+					]
+				]);
 			}
 		}
 
@@ -170,7 +181,8 @@ class Callback {
 	/**
 	 * 接收shipping推送来的数据
 	 */
-	private function doShippingData($action) {
+	private function doShippingData($action)
+	{
 		if (empty($this->siteToken)) {
 			throw new \RuntimeException('请使用registerSiteToken方法注册站点token');
 		}
@@ -181,9 +193,9 @@ class Callback {
 
 		$data = $this->postDecode($this->postInputStream);
 
-		$secret = Common::random(32);
-		$ret = array();
-		$ret['data'] = $data;
+		$secret        = Common::random(32);
+		$ret           = [];
+		$ret['data']   = $data;
 		$ret['secret'] = $secret;
 
 		$this->cache->save($action, serialize($ret));
@@ -191,12 +203,13 @@ class Callback {
 		return $secret;
 	}
 
-	protected function postDecode($post) {
+	protected function postDecode($post)
+	{
 		if (empty($post)) {
 			return false;
 		}
-		$data = base64_decode($post);
-		$ret = Common::unserialize($data);
+		$data   = base64_decode($post);
+		$ret    = Common::unserialize($data);
 		$string = ($ret['data'] . $this->siteToken);
 		if (md5($string) === $ret['sign']) {
 			return $ret['data'];

@@ -18,7 +18,8 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use W7\Sdk\Cloud\Cache\CacheInterface;
 
-class Request {
+class Request
+{
 	protected $apiUrl = '';
 	/**
 	 * @var Client
@@ -26,13 +27,13 @@ class Request {
 	protected $httpClient;
 	protected $defaultHttpClientConfig = [
 		'headers' => [],
-		'verify' => false,
+		'verify'  => false,
 //		'debug' => true,
 		'curl.options' => [
 			CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1,
 		],
 		'connect_timeout' => 3,
-		'timeout' => 10
+		'timeout'         => 10
 	];
 	protected static $middlewareMap = [];
 	protected $cache;
@@ -46,7 +47,8 @@ class Request {
 	 */
 	protected $responseContent;
 
-	public function __construct(CacheInterface $cache = null) {
+	public function __construct(CacheInterface $cache = null)
+	{
 		$header = [];
 		if (defined('W7_CLOUD_SDK_DEVELOP') && !empty(W7_CLOUD_SDK_DEVELOP)) {
 			$header['User-Agent'] = 'we7test-develop';
@@ -65,28 +67,33 @@ class Request {
 		}
 
 		$this->defaultHttpClientConfig['headers'] = array_merge([], $this->defaultHttpClientConfig['headers'], $header);
-		$this->cache = $cache;
+		$this->cache                              = $cache;
 	}
 
-	public static function setEnvDevelop() {
+	public static function setEnvDevelop()
+	{
 		!defined('W7_CLOUD_SDK_DEVELOP') && define('W7_CLOUD_SDK_DEVELOP', 1);
 	}
 
-	public static function setEnvBeta() {
+	public static function setEnvBeta()
+	{
 		!defined('W7_CLOUD_SDK_BETA') && define('W7_CLOUD_SDK_BETA', 1);
 	}
 
-	public static function setEnvCustom($agent) {
+	public static function setEnvCustom($agent)
+	{
 		!defined('W7_CLOUD_SDK_CUSTOM_AGENT') && define('W7_CLOUD_SDK_CUSTOM_AGENT', $agent);
 	}
 
-	public static function setEnvLocal($url = 'http://127.0.0.1/', $authCode = '') {
-		!defined('W7_CLOUD_SDK_LOCAL') && define('W7_CLOUD_SDK_LOCAL', 1);
+	public static function setEnvLocal($url = 'http://127.0.0.1/', $authCode = '')
+	{
+		!defined('W7_CLOUD_SDK_LOCAL')     && define('W7_CLOUD_SDK_LOCAL', 1);
 		!defined('W7_CLOUD_SDK_LOCAL_URL') && define('W7_CLOUD_SDK_LOCAL_URL', $url);
-		!defined('W7_CLOUD_SDK_AUTHKEY') && define('W7_CLOUD_SDK_AUTHKEY', $authCode);
+		!defined('W7_CLOUD_SDK_AUTHKEY')   && define('W7_CLOUD_SDK_AUTHKEY', $authCode);
 	}
 
-	public function getClient() {
+	public function getClient()
+	{
 		if (!$this->httpClient) {
 			if (empty($this->defaultHttpClientConfig['handler'])) {
 				$this->defaultHttpClientConfig['handler'] = HandlerStack::create();
@@ -102,16 +109,19 @@ class Request {
 		return $this->httpClient;
 	}
 
-	public function withHeader($key, $value) {
+	public function withHeader($key, $value)
+	{
 		$this->defaultHttpClientConfig['headers'][$key] = $value;
 		return $this;
 	}
 
-	public static function registerMiddleware(Closure $middleware) {
+	public static function registerMiddleware(Closure $middleware)
+	{
 		static::$middlewareMap[] = $middleware;
 	}
 
-	public function getResponse() {
+	public function getResponse()
+	{
 		return $this->response;
 	}
 
@@ -119,7 +129,8 @@ class Request {
 	 * 用于调式接口返回的数据
 	 * @return mixed
 	 */
-	public function getResponseContent() {
+	public function getResponseContent()
+	{
 		return $this->responseContent;
 	}
 }

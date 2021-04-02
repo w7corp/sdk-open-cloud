@@ -12,5 +12,6 @@
 
 namespace W7\Sdk\Cloud\Exception;
 
-class ServiceExpireException extends \Exception {
+class ServiceExpireException extends \Exception
+{
 }

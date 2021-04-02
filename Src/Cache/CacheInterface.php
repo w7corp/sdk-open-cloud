@@ -12,7 +12,8 @@
 
 namespace W7\Sdk\Cloud\Cache;
 
-interface CacheInterface {
+interface CacheInterface
+{
 	public function save($key, $data);
 	public function load($key);
 }

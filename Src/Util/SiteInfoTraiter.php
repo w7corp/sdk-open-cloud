@@ -14,7 +14,8 @@ namespace W7\Sdk\Cloud\Util;
 
 use W7\Sdk\Cloud\Message\SiteInfo;
 
-trait SiteInfoTraiter {
+trait SiteInfoTraiter
+{
 	/**
 	 * @var SiteInfo
 	 */
@@ -24,7 +25,8 @@ trait SiteInfoTraiter {
 	 * @param SiteInfo $siteInfo
 	 * @return $this
 	 */
-	public function setSiteInfo(SiteInfo $siteInfo) {
+	public function setSiteInfo(SiteInfo $siteInfo)
+	{
 		$this->siteInfo = $siteInfo;
 		return $this;
 	}

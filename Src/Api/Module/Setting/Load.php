@@ -14,12 +14,14 @@ namespace W7\Api\Module\Setting;
 
 use W7\Api\Module\Build;
 
-class Load extends Build {
+class Load extends Build
+{
 	protected $apiPath = '/module/setting/index';
 	protected $acid;
 
-	public function get() {
-		$this->postData['acid'] = $this->acid;
+	public function get()
+	{
+		$this->postData['acid']        = $this->acid;
 		$this->postData['module_name'] = $this->name;
 		return parent::get();
 	}
@@ -28,7 +30,8 @@ class Load extends Build {
 	 * @param $acid
 	 * @return Load
 	 */
-	public function setAcid($acid) {
+	public function setAcid($acid)
+	{
 		$this->acid = $acid;
 		return $this;
 	}

@@ -15,30 +15,33 @@ namespace W7\Api\Sms;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Send extends We7Request {
+class Send extends We7Request
+{
 	use SiteInfoTraiter;
 
-	protected $method = 'sms.send';
+	protected $method  = 'sms.send';
 	protected $apiPath = '/we7/sms/send';
 
-	public function index($mobile, $content, $sign, $uniacid, $balance, $accountName, $data = []) {
+	public function index($mobile, $content, $sign, $uniacid, $balance, $accountName, $data = [])
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
 
-		$params = $this->siteInfo->toArray();
-		$params['method'] = $data['method'] ?? $this->method;
-		$params['mobile'] = $mobile;
-		$params['content'] = $content;
-		$params['sms_sign'] = $sign;
-		$params['uniacid'] = $uniacid;
-		$params['balance'] = $balance;
+		$params                 = $this->siteInfo->toArray();
+		$params['method']       = $data['method'] ?? $this->method;
+		$params['mobile']       = $mobile;
+		$params['content']      = $content;
+		$params['sms_sign']     = $sign;
+		$params['uniacid']      = $uniacid;
+		$params['balance']      = $balance;
 		$params['account_name'] = $accountName;
-		$params['data'] = $data;
+		$params['data']         = $data;
 		return parent::post($params);
 	}
 
-	protected function decode($method, $response) {
+	protected function decode($method, $response)
+	{
 		return json_decode($response, true);
 	}
 }

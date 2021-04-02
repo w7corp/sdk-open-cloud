@@ -16,7 +16,8 @@ use GuzzleHttp\Exception\RequestException;
 use W7\Sdk\Cloud\Exception\SiteRegisteredException;
 use W7\Sdk\Cloud\Util\Shipping;
 
-abstract class We7Request extends Request {
+abstract class We7Request extends Request
+{
 	protected $apiUrl = 'http://api.w7.cc/';
 	protected $apiPath;
 	protected $transToken;
@@ -27,30 +28,32 @@ abstract class We7Request extends Request {
 	 * @param $transToken
 	 * @return $this
 	 */
-	public function setTransToken($transToken) {
+	public function setTransToken($transToken)
+	{
 		$this->transToken = $transToken;
 		return $this;
 	}
 
-	protected function post(array $data) {
+	protected function post(array $data)
+	{
 		if (empty($this->apiPath)) {
 			throw new \RuntimeException('接口地址不完整');
 		}
 
-		$header = array(
+		$header = [
 			'encode' => 'base64',
-		);
+		];
 
 		if (!empty($this->transToken)) {
 			$data['token'] = $this->transToken;
 		}
 		try {
-			$response = $this->getClient()->post(sprintf('%s%s', $this->apiUrl, trim($this->apiPath, '/')), array(
+			$response = $this->getClient()->post(sprintf('%s%s', $this->apiUrl, trim($this->apiPath, '/')), [
 				'form_params' => $data,
-				'headers' => $header,
-			));
+				'headers'     => $header,
+			]);
 
-			$this->response = $response;
+			$this->response        = $response;
 			$this->responseContent = $content = $response->getBody()->getContents();
 			return $this->decode($data['method'] ?? '', $content);
 		} catch (RequestException $e) {
@@ -60,12 +63,12 @@ abstract class We7Request extends Request {
 			}
 
 			$statusCode = $e->getResponse()->getStatusCode();
-			$content = $e->getResponse()->getBody()->getContents();
-			$message = json_decode($content, true);
-			if ($statusCode == '501') {
+			$content    = $e->getResponse()->getBody()->getContents();
+			$message    = json_decode($content, true);
+			if ('501' == $statusCode) {
 				throw new SiteRegisteredException($message['error'], $statusCode);
 			}
-			if ($statusCode == '502') {
+			if ('502' == $statusCode) {
 				throw new \Exception('502 Bad Gateway', $statusCode);
 			}
 			if (!is_null($message) && $message) {
@@ -75,7 +78,8 @@ abstract class We7Request extends Request {
 		}
 	}
 
-	protected function decode($method, $response) {
+	protected function decode($method, $response)
+	{
 		if (!empty($this->cache)) {
 			return Shipping::instance()->decode($response, $this->cache->load($method));
 		} else {

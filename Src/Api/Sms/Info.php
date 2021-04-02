@@ -15,13 +15,15 @@ namespace W7\Api\Sms;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Info extends We7Request {
+class Info extends We7Request
+{
 	use SiteInfoTraiter;
 
-	protected $method = 'sms.info';
+	protected $method  = 'sms.info';
 	protected $apiPath = '/we7/sms/info';
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}

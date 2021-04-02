@@ -12,10 +12,12 @@
 
 namespace W7\Sdk\Cloud\Util;
 
-trait InstanceTraiter {
+trait InstanceTraiter
+{
 	private static $instance;
 
-	public static function instance() {
+	public static function instance()
+	{
 		if (!isset(self::$instance)) {
 			self::$instance = new static();
 		}

@@ -17,13 +17,13 @@
 		}
 	},
 	"require": {
-		"guzzlehttp/guzzle": "^7.3",
+		"guzzlehttp/guzzle": "^6.3",
 		"ext-json": "*",
 		"ext-curl": "*",
 		"ext-zlib": "*"
 	},
 	"require-dev": {
-		"w7/php-cs-fixer": "^1.0",
+		"friendsofphp/php-cs-fixer": "^2.18",
 		"phpunit/phpunit": "^8.2"
 	}
 }

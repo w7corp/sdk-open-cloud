@@ -17,11 +17,12 @@ use W7\Sdk\Cloud\Util\Common;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Download extends We7Request {
+class Download extends We7Request
+{
 	use SiteInfoTraiter;
 
 	protected $apiPath = '/util/shipping/index';
-	protected $method = 'application.shipping';
+	protected $method  = 'application.shipping';
 	private $path;
 	private $type = 'module';
 
@@ -31,18 +32,19 @@ class Download extends We7Request {
 	 * @return array|mixed ['path' => 文件在模块内的路径, 'file' => 文件内容]
 	 * @throws SiteRegisteredException
 	 */
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
 		if (empty($this->path)) {
 			throw new \RuntimeException('缺少文件路径');
 		}
-		$data = $this->siteInfo->toArray();
-		$data['path'] = $this->path;
-		$data['type'] = $this->type;
-		$data['method'] = $this->method;
-		$data['gz'] = function_exists('gzcompress') && function_exists('gzuncompress') ? 'true' : 'false';
+		$data             = $this->siteInfo->toArray();
+		$data['path']     = $this->path;
+		$data['type']     = $this->type;
+		$data['method']   = $this->method;
+		$data['gz']       = function_exists('gzcompress') && function_exists('gzuncompress') ? 'true' : 'false';
 		$data['download'] = true;
 		return parent::post($data);
 	}
@@ -53,45 +55,39 @@ class Download extends We7Request {
 	 * @param $path
 	 * @return $this
 	 */
-	public function setPath($path) {
+	public function setPath($path)
+	{
 		$this->path = $path;
 		return $this;
 	}
 
-	public function decode($method, $response) {
-		if ($response == 'success') {
+	public function decode($method, $response)
+	{
+		if ('success' == $response) {
 			return $response;
 		}
 
 		$errorMessage = json_decode($response, true);
-		if (json_last_error() === JSON_ERROR_NONE) {
+		if (JSON_ERROR_NONE === json_last_error()) {
 			throw new \RuntimeException($errorMessage['message'], $errorMessage['errno']);
 		}
 		$result = Common::unserialize($response);
-		$gz = function_exists('gzcompress') && function_exists('gzuncompress');
-		$file = base64_decode($result['file']);
+		$gz     = function_exists('gzcompress') && function_exists('gzuncompress');
+		$file   = base64_decode($result['file']);
 		if ($gz) {
 			$file = gzuncompress($file);
 		}
-		$transtoken =  $this->transToken;
+		$transtoken = $this->transToken;
 		if (empty($transtoken)) {
 			throw new \RuntimeException('Invalid trans token');
 		}
 		$string = (md5($file) . $result['path'] . $transtoken);
 
 		if (md5($string) === $result['sign']) {
-			return array(
+			return [
 				'path' => $result['path'],
 				'file' => $file,
-			);
+			];
 		}
-	}
-
-	private function getTransToken() {
-		$token = $this->cache->load('trans.token', false);
-		if (empty($token)) {
-			return '';
-		}
-		return Common::authcode($token, 'DECODE');
 	}
 }

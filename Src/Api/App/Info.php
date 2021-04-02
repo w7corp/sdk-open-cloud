@@ -15,7 +15,8 @@ namespace W7\Api\App;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Info extends We7Request {
+class Info extends We7Request
+{
 	use SiteInfoTraiter;
 
 	protected $apiPath = '/wxapp/info';
@@ -26,7 +27,8 @@ class Info extends We7Request {
 	/**
 	 * @param mixed $name
 	 */
-	public function setName($name) {
+	public function setName($name)
+	{
 		$this->name = $name;
 		return $this;
 	}
@@ -34,12 +36,14 @@ class Info extends We7Request {
 	/**
 	 * @param mixed $version
 	 */
-	public function setVersion($version) {
+	public function setVersion($version)
+	{
 		$this->version = $version;
 		return $this;
 	}
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息');
 		}
@@ -49,9 +53,9 @@ class Info extends We7Request {
 		if (empty($this->version)) {
 			throw new \RuntimeException('缺少模块版本');
 		}
-		$data = $this->siteInfo->toArray();
+		$data           = $this->siteInfo->toArray();
 		$data['module'] = [
-			'name' => $this->name,
+			'name'    => $this->name,
 			'version' => $this->version
 		];
 		return parent::post($data);

@@ -15,18 +15,20 @@ namespace W7\Api\Site;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class SiteToken extends We7Request {
+class SiteToken extends We7Request
+{
 	use SiteInfoTraiter;
 
-	protected $method = 'application.token';
+	protected $method  = 'application.token';
 	protected $apiPath = '/site/token/index';
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
 
-		$data = $this->siteInfo->toArray();
+		$data           = $this->siteInfo->toArray();
 		$data['method'] = $data['method'] ?? $this->method;
 		return parent::post($data);
 	}

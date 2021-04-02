@@ -15,21 +15,23 @@ namespace W7\Api\Module;
 use W7\Sdk\Cloud\Request\We7Request;
 use W7\Sdk\Cloud\Util\SiteInfoTraiter;
 
-class Info extends We7Request {
+class Info extends We7Request
+{
 	protected $apiPath = '/module/info';
-	protected $method = 'module.info';
+	protected $method  = 'module.info';
 	protected $name;
 
 	use SiteInfoTraiter;
 
-	public function get() {
+	public function get()
+	{
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
 		if (empty($this->name)) {
 			throw new \RuntimeException('缺点模块名称');
 		}
-		$data = $this->siteInfo->toArray();
+		$data           = $this->siteInfo->toArray();
 		$data['module'] = $this->name;
 		$data['method'] = $data['method'] ?? $this->method;
 		return parent::post($data);
@@ -40,7 +42,8 @@ class Info extends We7Request {
 	 * @param $name
 	 * @return $this
 	 */
-	public function setName($name) {
+	public function setName($name)
+	{
 		$this->name = $name;
 		return $this;
 	}
