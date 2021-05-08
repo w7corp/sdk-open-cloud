@@ -18,6 +18,7 @@
 	},
 	"require": {
 		"guzzlehttp/guzzle": "^6.3",
+		"league/flysystem": "^2.0",
 		"ext-json": "*",
 		"ext-curl": "*",
 		"ext-zlib": "*"
