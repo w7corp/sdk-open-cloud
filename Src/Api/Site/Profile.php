@@ -31,9 +31,7 @@ class Profile extends We7Request
 		if (empty($data['url'])) {
 			throw new \RuntimeException('缺少Url参数');
 		}
-		$post        = $this->siteInfo->toArray();
-		$post['url'] = $data['url'];
-
+		$post = ['url' => $data['url']];
 		return parent::post($post);
 	}
 }
