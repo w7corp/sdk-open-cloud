@@ -33,9 +33,4 @@ class AccessToken extends We7Request
 		$data['js_token'] = $jsToken;
 		return parent::post($data);
 	}
-
-	protected function decode($method, $response)
-	{
-		return json_decode($response, true);
-	}
 }

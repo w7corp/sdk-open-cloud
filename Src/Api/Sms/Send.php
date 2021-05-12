@@ -39,9 +39,4 @@ class Send extends We7Request
 		$params['data']         = $data;
 		return parent::post($params);
 	}
-
-	protected function decode($method, $response)
-	{
-		return json_decode($response, true);
-	}
 }
