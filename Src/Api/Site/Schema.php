@@ -26,9 +26,6 @@ class Schema extends We7Request
 		if (empty($this->siteInfo)) {
 			throw new \RuntimeException('缺少站点信息参数');
 		}
-		if (empty($this->cache)) {
-			throw new \RuntimeException('需要指定存储Cache');
-		}
 		$data = $this->siteInfo->toArray();
 		return parent::post($data);
 	}
