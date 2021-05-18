@@ -33,6 +33,8 @@ class Upgrade
 		if (!defined('ADDONS_PATH') || empty(ADDONS_PATH)) {
 			throw new \RuntimeException('请先设置应用根目录常量!');
 		}
+		$result = [];
+		
 		$localAdapter = new LocalFilesystemAdapter(ADDONS_PATH . '/' . $name);
 		$fileSystem   = new Filesystem($localAdapter);
 		

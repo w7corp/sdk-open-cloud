@@ -32,7 +32,7 @@ class File implements CacheInterface
 			throw new \RuntimeException('目录不存在或是不可写');
 		}
 
-		$this->cachePath = trim($cachePath, '/');
+		$this->cachePath = rtrim($cachePath, '/');
 	}
 
 	public function save($key, $data)
@@ -45,12 +45,12 @@ class File implements CacheInterface
 			throw new \RuntimeException('非法的名称');
 		}
 
-		return file_put_contents(sprintf('/%s/%s', $this->cachePath, $key), serialize($data));
+		return file_put_contents(sprintf('%s/%s', $this->cachePath, $key), serialize($data));
 	}
 
 	public function load($key, $delete = true)
 	{
-		$cacheFile = sprintf('/%s/%s', $this->cachePath, $key);
+		$cacheFile = sprintf('%s/%s', $this->cachePath, $key);
 		if (!file_exists($cacheFile)) {
 			return '';
 		}
