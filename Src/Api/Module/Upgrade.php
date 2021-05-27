@@ -49,7 +49,7 @@ class Upgrade
 			if (1 !== version_compare($dirVersion, $currentVersion)) {
 				continue;
 			}
-			$className = '\W7\Addons\\' . ucfirst($name) . '\Upgrade' . str_replace('.', '', $dirVersion) . '\Up';
+			$className = '\W7\Addons\\' . $name . '\Upgrade' . str_replace('.', '', $dirVersion) . '\Up';
 			include_once ADDONS_PATH . '/' . $name . '/upgrade/' . $dirVersion . '/Up.php';
 			if (!class_exists($className)) {
 				continue;
