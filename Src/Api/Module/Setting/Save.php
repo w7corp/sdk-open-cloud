@@ -10,7 +10,7 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Api\Module\Setting;
+namespace W7\Sdk\OpenCloud\Api\Module\Setting;
 
 class Save extends Load
 {

@@ -10,7 +10,7 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Api\Site;
+namespace W7\Sdk\OpenCloud\Api\Site;
 
 use W7\Sdk\OpenCloud\Request\We7Request;
 use W7\Sdk\OpenCloud\Util\SiteInfoTraiter;

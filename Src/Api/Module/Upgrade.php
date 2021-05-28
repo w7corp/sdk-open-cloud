@@ -10,12 +10,11 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Api\Module;
+namespace W7\Sdk\OpenCloud\Api\Module;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use W7\Contracts\ModuleUpgradeInterface;
-use W7\Sdk\OpenCloud\Exception\ModuleRootPathUndefinedException;
+use W7\Sdk\OpenCloud\Contracts\ModuleUpgradeInterface;
 
 class Upgrade
 {
@@ -65,7 +64,6 @@ class Upgrade
 	 * @param string $toVersion
 	 * @param callable $callback
 	 * @return bool
-	 * @throws ModuleRootPathUndefinedException
 	 * @throws \League\Flysystem\FilesystemException
 	 */
 	public function upDatabase(string $moduleName, string $toVersion, callable $callback)
@@ -92,7 +90,6 @@ class Upgrade
 	 * @param string $moduleName
 	 * @param string $toVersion
 	 * @return bool
-	 * @throws ModuleRootPathUndefinedException
 	 * @throws \League\Flysystem\FilesystemException
 	 */
 	public function upScript(string $moduleName, string $toVersion)

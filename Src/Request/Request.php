@@ -50,13 +50,6 @@ class Request
 	public function __construct(CacheInterface $cache = null)
 	{
 		$header = [];
-		if (defined('W7_CLOUD_SDK_DEVELOP') && !empty(W7_CLOUD_SDK_DEVELOP)) {
-			$header['User-Agent'] = 'we7test-develop';
-		}
-
-		if (defined('W7_CLOUD_SDK_BETA') && !empty(W7_CLOUD_SDK_BETA)) {
-			$header['User-Agent'] = 'we7test-beta';
-		}
 
 		if (defined('W7_CLOUD_SDK_LOCAL') && !empty(W7_CLOUD_SDK_LOCAL)) {
 			$this->apiUrl = W7_CLOUD_SDK_LOCAL_URL;

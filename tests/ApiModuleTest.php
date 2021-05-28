@@ -13,13 +13,13 @@
 namespace W7\Sdk\OpenCloud\Tests;
 
 use PHPUnit\Framework\TestCase;
-use W7\Api\Common\Download;
-use W7\Api\Module\Build;
-use W7\Api\Module\Check;
-use W7\Api\Module\Info;
-use W7\Api\Module\Query;
-use W7\Api\Module\Setting;
-use W7\Api\Site\SiteToken;
+use W7\Sdk\OpenCloud\Api\Common\Download;
+use W7\Sdk\OpenCloud\Api\Module\Build;
+use W7\Sdk\OpenCloud\Api\Module\Check;
+use W7\Sdk\OpenCloud\Api\Module\Info;
+use W7\Sdk\OpenCloud\Api\Module\Query;
+use W7\Sdk\OpenCloud\Api\Module\Setting;
+use W7\Sdk\OpenCloud\Api\Site\SiteToken;
 
 class ApiModuleTest extends TestCase
 {

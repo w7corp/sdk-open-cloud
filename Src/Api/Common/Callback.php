@@ -10,7 +10,7 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Api\Common;
+namespace W7\Sdk\OpenCloud\Api\Common;
 
 use W7\Sdk\OpenCloud\Cache\CacheInterface;
 use W7\Sdk\OpenCloud\Util\Common;

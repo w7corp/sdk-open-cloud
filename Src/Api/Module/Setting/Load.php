@@ -10,9 +10,9 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Api\Module\Setting;
+namespace W7\Sdk\OpenCloud\Api\Module\Setting;
 
-use W7\Api\Module\Build;
+use W7\Sdk\OpenCloud\Api\Module\Build;
 
 class Load extends Build
 {
