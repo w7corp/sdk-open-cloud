@@ -12,7 +12,7 @@
 	"autoload": {
 		"psr-4": {
 			"W7\\": "Src/",
-			"W7\\Sdk\\Cloud\\Tests\\": "tests/",
+			"W7\\Sdk\\OpenCloud\\Tests\\": "tests/",
 			"W7\\Sdk\\OpenCloud\\": "Src/"
 		}
 	},
