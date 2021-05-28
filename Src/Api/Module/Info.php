@@ -12,8 +12,8 @@
 
 namespace W7\Api\Module;
 
-use W7\Sdk\Cloud\Request\We7Request;
-use W7\Sdk\Cloud\Util\SiteInfoTraiter;
+use W7\Sdk\OpenCloud\Request\We7Request;
+use W7\Sdk\OpenCloud\Util\SiteInfoTraiter;
 
 class Info extends We7Request
 {

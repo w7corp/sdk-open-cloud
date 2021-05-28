@@ -10,9 +10,9 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Sdk\Cloud\Util;
+namespace W7\Sdk\OpenCloud\Util;
 
-use W7\Sdk\Cloud\Message\SiteInfo;
+use W7\Sdk\OpenCloud\Message\SiteInfo;
 
 trait SiteInfoTraiter
 {

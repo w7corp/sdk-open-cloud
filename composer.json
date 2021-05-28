@@ -13,7 +13,7 @@
 		"psr-4": {
 			"W7\\": "Src/",
 			"W7\\Sdk\\Cloud\\Tests\\": "tests/",
-			"W7\\Sdk\\Cloud\\": "Src/"
+			"W7\\Sdk\\OpenCloud\\": "Src/"
 		}
 	},
 	"require": {

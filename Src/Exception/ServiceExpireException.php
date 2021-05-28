@@ -10,7 +10,7 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Sdk\Cloud\Exception;
+namespace W7\Sdk\OpenCloud\Exception;
 
 class ServiceExpireException extends \Exception
 {

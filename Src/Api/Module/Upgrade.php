@@ -15,7 +15,7 @@ namespace W7\Api\Module;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use W7\Contracts\ModuleUpgradeInterface;
-use W7\Sdk\Cloud\Exception\ModuleRootPathUndefinedException;
+use W7\Sdk\OpenCloud\Exception\ModuleRootPathUndefinedException;
 
 class Upgrade
 {

@@ -10,11 +10,11 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Sdk\Cloud\Request;
+namespace W7\Sdk\OpenCloud\Request;
 
 use GuzzleHttp\Exception\RequestException;
-use W7\Sdk\Cloud\Exception\SiteRegisteredException;
-use W7\Sdk\Cloud\Util\Shipping;
+use W7\Sdk\OpenCloud\Exception\SiteRegisteredException;
+use W7\Sdk\OpenCloud\Util\Shipping;
 
 abstract class We7Request extends Request
 {

@@ -10,10 +10,10 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Sdk\Cloud\Tests;
+namespace W7\Sdk\OpenCloud\Tests;
 
-use W7\Sdk\Cloud\Cache\File;
-use W7\Sdk\Cloud\Message\SiteInfo;
+use W7\Sdk\OpenCloud\Cache\File;
+use W7\Sdk\OpenCloud\Message\SiteInfo;
 
 trait Helper
 {
@@ -54,7 +54,7 @@ trait Helper
 	}
 	
 	/**
-	 * @return \W7\Sdk\Cloud\Message\SiteInfo
+	 * @return \W7\Sdk\OpenCloud\Message\SiteInfo
 	 */
 	public function getSiteInfo()
 	{

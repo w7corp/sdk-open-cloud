@@ -10,7 +10,7 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Sdk\Cloud\Tests;
+namespace W7\Sdk\OpenCloud\Tests;
 
 use PHPUnit\Framework\TestCase;
 use W7\Api\Common\Download;

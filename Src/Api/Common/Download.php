@@ -12,10 +12,10 @@
 
 namespace W7\Api\Common;
 
-use W7\Sdk\Cloud\Exception\SiteRegisteredException;
-use W7\Sdk\Cloud\Util\Common;
-use W7\Sdk\Cloud\Request\We7Request;
-use W7\Sdk\Cloud\Util\SiteInfoTraiter;
+use W7\Sdk\OpenCloud\Exception\SiteRegisteredException;
+use W7\Sdk\OpenCloud\Util\Common;
+use W7\Sdk\OpenCloud\Request\We7Request;
+use W7\Sdk\OpenCloud\Util\SiteInfoTraiter;
 
 class Download extends We7Request
 {

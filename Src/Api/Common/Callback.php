@@ -12,8 +12,8 @@
 
 namespace W7\Api\Common;
 
-use W7\Sdk\Cloud\Cache\CacheInterface;
-use W7\Sdk\Cloud\Util\Common;
+use W7\Sdk\OpenCloud\Cache\CacheInterface;
+use W7\Sdk\OpenCloud\Util\Common;
 
 class Callback
 {

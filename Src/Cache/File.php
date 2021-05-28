@@ -10,9 +10,9 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Sdk\Cloud\Cache;
+namespace W7\Sdk\OpenCloud\Cache;
 
-use W7\Sdk\Cloud\Util\Common;
+use W7\Sdk\OpenCloud\Util\Common;
 
 class File implements CacheInterface
 {

@@ -10,13 +10,13 @@
  * visited https://www.w7.cc for more details
  */
 
-namespace W7\Sdk\Cloud\Request;
+namespace W7\Sdk\OpenCloud\Request;
 
 use Closure;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use W7\Sdk\Cloud\Cache\CacheInterface;
+use W7\Sdk\OpenCloud\Cache\CacheInterface;
 
 class Request
 {
