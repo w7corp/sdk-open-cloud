@@ -33,7 +33,7 @@ class Request
 			CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1,
 		],
 		'connect_timeout' => 3,
-		'timeout'         => 10
+		'timeout'         => 30
 	];
 	protected static $middlewareMap = [];
 	protected $cache;
