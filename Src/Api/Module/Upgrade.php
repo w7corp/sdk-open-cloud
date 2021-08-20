@@ -34,10 +34,10 @@ class Upgrade
 		}
 		$result = [];
 		
-		$localAdapter = new LocalFilesystemAdapter(ADDONS_PATH . '/' . $name);
+		$localAdapter = new LocalFilesystemAdapter(ADDONS_PATH . DIRECTORY_SEPARATOR . $name);
 		$fileSystem   = new Filesystem($localAdapter);
 		
-		$upgradeDirPath = 'upgrade/';
+		$upgradeDirPath = 'upgrade' . DIRECTORY_SEPARATOR;
 		$allFiles       = $fileSystem->listContents($upgradeDirPath, true);
 		/** @var StorageAttributes $file */
 		foreach ($allFiles as $file) {
@@ -49,7 +49,7 @@ class Upgrade
 				continue;
 			}
 			$className = '\W7\Addons\\' . $name . '\Upgrade' . str_replace('.', '', $dirVersion) . '\Up';
-			include_once ADDONS_PATH . '/' . $name . '/upgrade/' . $dirVersion . '/Up.php';
+			include_once ADDONS_PATH . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR . $dirVersion . DIRECTORY_SEPARATOR . 'Up.php';
 			if (!class_exists($className)) {
 				continue;
 			}
