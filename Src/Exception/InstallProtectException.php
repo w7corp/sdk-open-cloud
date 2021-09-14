@@ -12,6 +12,6 @@
 
 namespace W7\Sdk\OpenCloud\Exception;
 
-class InstallProtectException extends \Exception
+class InstallProtectException extends ApiErrorException
 {
 }

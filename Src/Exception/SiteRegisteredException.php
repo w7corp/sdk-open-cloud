@@ -12,6 +12,6 @@
 
 namespace W7\Sdk\OpenCloud\Exception;
 
-class SiteRegisteredException extends \Exception
+class SiteRegisteredException extends ApiErrorException
 {
 }

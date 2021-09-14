@@ -13,6 +13,7 @@
 namespace W7\Sdk\OpenCloud\Api\Common;
 
 use W7\Sdk\OpenCloud\Cache\CacheInterface;
+use W7\Sdk\OpenCloud\Exception\ApiErrorException;
 use W7\Sdk\OpenCloud\Util\Common;
 
 class Callback
@@ -184,11 +185,11 @@ class Callback
 	private function doShippingData($action)
 	{
 		if (empty($this->siteToken)) {
-			throw new \RuntimeException('请使用registerSiteToken方法注册站点token');
+			throw new ApiErrorException('请使用registerSiteToken方法注册站点token');
 		}
 
 		if (empty($this->cache)) {
-			throw new \RuntimeException('请使用registerCache方法注册缓存处理器');
+			throw new ApiErrorException('请使用registerCache方法注册缓存处理器');
 		}
 
 		$data = $this->postDecode($this->postInputStream);

@@ -13,6 +13,7 @@
 namespace W7\Sdk\OpenCloud\Request;
 
 use GuzzleHttp\Exception\RequestException;
+use W7\Sdk\OpenCloud\Exception\ApiErrorException;
 use W7\Sdk\OpenCloud\Exception\SiteRegisteredException;
 use W7\Sdk\OpenCloud\Util\Shipping;
 
@@ -37,7 +38,7 @@ abstract class We7Request extends Request
 	protected function post(array $data)
 	{
 		if (empty($this->apiPath)) {
-			throw new \RuntimeException('接口地址不完整');
+			throw new ApiErrorException('接口地址不完整');
 		}
 
 		$header = [

@@ -12,6 +12,6 @@
 
 namespace W7\Sdk\OpenCloud\Exception;
 
-class ServiceExpireException extends \Exception
+class ServiceExpireException extends ApiErrorException
 {
 }

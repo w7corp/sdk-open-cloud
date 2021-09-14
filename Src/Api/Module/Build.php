@@ -12,6 +12,7 @@
 
 namespace W7\Sdk\OpenCloud\Api\Module;
 
+use W7\Sdk\OpenCloud\Exception\ParamsErrorException;
 use W7\Sdk\OpenCloud\Util\Common;
 use W7\Sdk\OpenCloud\Request\We7Request;
 use W7\Sdk\OpenCloud\Util\SiteInfoTraiter;
@@ -32,10 +33,10 @@ class Build extends We7Request
 	public function get()
 	{
 		if (empty($this->siteInfo)) {
-			throw new \RuntimeException('缺少站点信息参数');
+			throw new ParamsErrorException('缺少站点信息参数');
 		}
 		if (empty($this->name)) {
-			throw new \RuntimeException('缺点模块名称');
+			throw new ParamsErrorException('缺点模块名称');
 		}
 		$data                   = $this->siteInfo->toArray();
 		$data['module']         = $this->name;

@@ -12,6 +12,8 @@
 
 namespace W7\Sdk\OpenCloud\Message;
 
+use W7\Sdk\OpenCloud\Exception\ParamsErrorException;
+
 final class SiteInfo
 {
 	/**
@@ -74,7 +76,7 @@ final class SiteInfo
 	public function toArray()
 	{
 		if (empty($this->key) || empty($this->host) || (empty($this->password) && empty($this->token))) {
-			throw new \RuntimeException('站点信息不完整');
+			throw new ParamsErrorException('站点信息不完整');
 		}
 
 		$info = [

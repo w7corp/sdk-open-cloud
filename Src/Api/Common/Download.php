@@ -12,6 +12,8 @@
 
 namespace W7\Sdk\OpenCloud\Api\Common;
 
+use W7\Sdk\OpenCloud\Exception\ApiErrorException;
+use W7\Sdk\OpenCloud\Exception\ParamsErrorException;
 use W7\Sdk\OpenCloud\Exception\SiteRegisteredException;
 use W7\Sdk\OpenCloud\Util\Common;
 use W7\Sdk\OpenCloud\Request\We7Request;
@@ -35,10 +37,10 @@ class Download extends We7Request
 	public function get()
 	{
 		if (empty($this->siteInfo)) {
-			throw new \RuntimeException('缺少站点信息参数');
+			throw new ParamsErrorException('缺少站点信息参数');
 		}
 		if (empty($this->path)) {
-			throw new \RuntimeException('缺少文件路径');
+			throw new ParamsErrorException('缺少文件路径');
 		}
 		$data             = $this->siteInfo->toArray();
 		$data['path']     = $this->path;
@@ -69,7 +71,7 @@ class Download extends We7Request
 
 		$errorMessage = json_decode($response, true);
 		if (JSON_ERROR_NONE === json_last_error()) {
-			throw new \RuntimeException($errorMessage['message'], $errorMessage['errno']);
+			throw new ApiErrorException($errorMessage['message'], $errorMessage['errno']);
 		}
 		$result = Common::unserialize($response);
 		$gz     = function_exists('gzcompress') && function_exists('gzuncompress');
@@ -79,7 +81,7 @@ class Download extends We7Request
 		}
 		$transtoken = $this->transToken;
 		if (empty($transtoken)) {
-			throw new \RuntimeException('Invalid trans token');
+			throw new ParamsErrorException('Invalid trans token');
 		}
 		$string = (md5($file) . $result['path'] . $transtoken);
 
