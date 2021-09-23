@@ -61,7 +61,7 @@ class Common
 		if (is_dir($dir)) {
 			if ($fp = fopen("$dir/test.txt", 'w')) {
 				fclose($fp);
-				unlink("$dir/test.txt");
+				@unlink("$dir/test.txt");
 				$writeable = 1;
 			} else {
 				$writeable = 0;
