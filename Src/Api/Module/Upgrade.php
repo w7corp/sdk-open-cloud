@@ -15,22 +15,29 @@ namespace W7\Sdk\OpenCloud\Api\Module;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use W7\Sdk\OpenCloud\Contracts\ModuleUpgradeInterface;
+use W7\Sdk\OpenCloud\Exception\ApiErrorException;
+use W7\Sdk\OpenCloud\Exception\ParamsErrorException;
 
 class Upgrade
 {
+	const UPGRADE_TYPE_UP = 'Up';
+	const UPGRADE_TYPE_DOWN = 'Down';
 	protected $version;
 	protected $name;
+	private $upgradeType = 'Up';
 	
 	/**
-	 * 获取从当前版本到最新版本所有要执行的升级class
+	 * 获取从当前版本到最新版本所有要执行的升/降级class
 	 * @param string $name
 	 * @param string $currentVersion
 	 * @return array
+	 * @throws ApiErrorException
+	 * @throws \League\Flysystem\FilesystemException
 	 */
-	public function upInit(string $name, string $currentVersion = '')
+	private function init(string $name, string $currentVersion = '')
 	{
 		if (!defined('ADDONS_PATH') || empty(ADDONS_PATH)) {
-			throw new \RuntimeException('请先设置应用根目录常量!');
+			throw new ApiErrorException('请先设置应用根目录常量!');
 		}
 		$result = [];
 		
@@ -45,17 +52,60 @@ class Upgrade
 				continue;
 			}
 			$dirVersion = str_replace($upgradeDirPath, '', $file->path());
-			if (1 !== version_compare($dirVersion, $currentVersion)) {
+			if (self::UPGRADE_TYPE_UP == $this->upgradeType && 1 !== version_compare($dirVersion, $currentVersion)) {
 				continue;
 			}
-			$className = '\W7\Addons\\' . $name . '\Upgrade' . str_replace('.', '', $dirVersion) . '\Up';
-			include_once ADDONS_PATH . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR . $dirVersion . DIRECTORY_SEPARATOR . 'Up.php';
+			if (self::UPGRADE_TYPE_DOWN == $this->upgradeType && 1 === version_compare($currentVersion, $dirVersion)) {
+				continue;
+			}
+			$className = '\W7\Addons\\' . $name . '\Upgrade' . str_replace('.', '', $dirVersion) . '\\' . $this->upgradeType;
+			include_once ADDONS_PATH . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR . $dirVersion . DIRECTORY_SEPARATOR . $this->upgradeType . '.php';
 			if (!class_exists($className)) {
 				continue;
 			}
 			$result[] = ['version' => $dirVersion, 'class_name' => $className];
 		}
 		return $result;
+	}
+	/**
+	 * 获取从当前版本到最新版本所有要执行的升级class
+	 * @param string $name
+	 * @param string $currentVersion
+	 * @return array
+	 */
+	public function upInit(string $name, string $currentVersion = '')
+	{
+		$this->upgradeType = self::UPGRADE_TYPE_UP;
+		return $this->init($name, $currentVersion);
+	}
+	
+	public function downInit(string $name, string $currentVersion)
+	{
+		$this->upgradeType = self::UPGRADE_TYPE_DOWN;
+		return $this->init($name, $currentVersion);
+	}
+	
+	public function downScriptAndDatabase(string $name, string $currentVersion, callable $callback)
+	{
+		$database = [];
+		$classNames = $this->downInit($name, $currentVersion);
+		foreach ($classNames as $className) {
+			if (1 === version_compare($className['version'], $currentVersion)) {
+				continue;
+			}
+			$down = new $className['class_name']();
+			if (!($down instanceof ModuleUpgradeInterface)) {
+				continue;
+			}
+			$down->script();
+			if (!is_array($down->database())) {
+				throw new ApiErrorException('卸载脚本内数据库函数返回有误(返回必须是个数组),请联系开发者处理');
+			}
+			$database = array_merge($database, $down->database());
+			$down     = null;
+		}
+		$callback($database);
+		return true;
 	}
 	
 	/**
@@ -78,6 +128,9 @@ class Upgrade
 			$up = new $className['class_name']();
 			if (!($up instanceof ModuleUpgradeInterface)) {
 				continue;
+			}
+			if (!is_array($up->database())) {
+				throw new ApiErrorException('升级脚本内数据库函数返回有误(返回必须是个数组),请联系开发者处理');
 			}
 			$result = $callback($up->database());
 			$up     = null;
