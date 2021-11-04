@@ -13,6 +13,7 @@
 namespace W7\Sdk\OpenCloud\Request;
 
 use GuzzleHttp\Exception\RequestException;
+use Psr\SimpleCache\CacheInterface;
 use W7\Sdk\OpenCloud\Exception\ApiErrorException;
 use W7\Sdk\OpenCloud\Exception\SiteRegisteredException;
 use W7\Sdk\OpenCloud\Util\Shipping;
@@ -22,6 +23,9 @@ abstract class We7Request extends Request
 	protected $apiUrl = 'http://api.w7.cc/';
 	protected $apiPath;
 	protected $transToken;
+    /** @var CacheInterface $apiCache */
+    protected $apiCache;
+    protected $apiCacheTtl;
 
 	/**
 	 * transttoken通过 site.token接口获取
@@ -49,14 +53,20 @@ abstract class We7Request extends Request
 			$data['token'] = $this->transToken;
 		}
 		try {
+            $apiCacheKey = $this->getApiCacheKey(md5($this->apiPath . implode('', $data)));
+            $cache = $this->apiCache->get($apiCacheKey);
+            if (!empty($cache)) {
+                return $cache;
+            }
 			$response = $this->getClient()->post(sprintf('%s%s', $this->apiUrl, trim($this->apiPath, '/')), [
 				'form_params' => $data,
 				'headers'     => $header,
 			]);
-
 			$this->response        = $response;
 			$this->responseContent = $content = $response->getBody()->getContents();
-			return $this->decode($data['method'] ?? '', $content);
+            $result = $this->decode($data['method'] ?? '', $content);
+            $this->apiCache->set($apiCacheKey, $result, $this->apiCacheTtl);
+			return $result;
 		} catch (RequestException $e) {
 			$response = $e->getResponse();
 			if (empty($response)) {
@@ -87,4 +97,21 @@ abstract class We7Request extends Request
 			return Shipping::instance()->decode($response, '');
 		}
 	}
+    
+    private function getApiCacheKey(string $key)
+    {
+        return 'w7_api_' . $key;
+    }
+    
+    public function withCache(CacheInterface $cache)
+    {
+        $this->apiCache = $cache;
+        return $this;
+    }
+    
+    public function withTtl($ttl = null)
+    {
+        $this->apiCacheTtl = $ttl ?: 5*60;
+        return $this;
+    }
 }
