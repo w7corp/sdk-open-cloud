@@ -18,19 +18,19 @@ use W7\Sdk\OpenCloud\Util\SiteInfoTraiter;
 
 class SiteToken extends We7Request
 {
-	use SiteInfoTraiter;
+    use SiteInfoTraiter;
 
-	protected $method  = 'application.token';
-	protected $apiPath = '/site/token/index';
+    protected $method  = 'application.token';
+    protected $apiPath = '/site/token/index';
 
-	public function get()
-	{
-		if (empty($this->siteInfo)) {
-			throw new ParamsErrorException('缺少站点信息参数');
-		}
+    public function get()
+    {
+        if (empty($this->siteInfo)) {
+            throw new ParamsErrorException('缺少站点信息参数');
+        }
 
-		$data           = $this->siteInfo->toArray();
-		$data['method'] = $data['method'] ?? $this->method;
-		return parent::post($data);
-	}
+        $data           = $this->siteInfo->toArray();
+        $data['method'] = $data['method'] ?? $this->method;
+        return parent::post($data);
+    }
 }

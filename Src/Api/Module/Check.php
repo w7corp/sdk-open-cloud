@@ -14,6 +14,6 @@ namespace W7\Sdk\OpenCloud\Api\Module;
 
 class Check extends Build
 {
-	protected $apiPath = '/module/check';
-	protected $method  = 'module.check';
+    protected $apiPath = '/module/check';
+    protected $method  = 'module.check';
 }

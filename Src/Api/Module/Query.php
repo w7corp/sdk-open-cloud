@@ -19,46 +19,46 @@ use W7\Sdk\OpenCloud\Util\SiteInfoTraiter;
 
 class Query extends We7Request
 {
-	protected $apiPath = '/module/query';
-	protected $method  = 'module.query';
+    protected $apiPath = '/module/query';
+    protected $method  = 'module.query';
 
-	protected $module = '';
-	protected $page   = 0;
+    protected $module = '';
+    protected $page   = 0;
 
-	use SiteInfoTraiter;
-	use InstanceTraiter;
+    use SiteInfoTraiter;
+    use InstanceTraiter;
 
-	public function get()
-	{
-		if (empty($this->siteInfo)) {
-			throw new ParamsErrorException('缺少站点信息参数');
-		}
-		$data           = $this->siteInfo->toArray();
-		$data['method'] = $this->method;
-		$data['module'] = $this->module;
-		if (!empty($this->page)) {
-			$data['page'] = $this->page;
-		}
-		return parent::post($data);
-	}
+    public function get()
+    {
+        if (empty($this->siteInfo)) {
+            throw new ParamsErrorException('缺少站点信息参数');
+        }
+        $data           = $this->siteInfo->toArray();
+        $data['method'] = $this->method;
+        $data['module'] = $this->module;
+        if (!empty($this->page)) {
+            $data['page'] = $this->page;
+        }
+        return parent::post($data);
+    }
 
-	/**
-	 * @param int $page
-	 * @return Query
-	 */
-	public function setPage(int $page)
-	{
-		$this->page = $page;
-		return $this;
-	}
+    /**
+     * @param int $page
+     * @return Query
+     */
+    public function setPage(int $page)
+    {
+        $this->page = $page;
+        return $this;
+    }
 
-	/**
-	 * @param mixed $module
-	 * @return Query
-	 */
-	public function setSyncModule($module)
-	{
-		$this->module = $module;
-		return $this;
-	}
+    /**
+     * @param mixed $module
+     * @return Query
+     */
+    public function setSyncModule($module)
+    {
+        $this->module = $module;
+        return $this;
+    }
 }

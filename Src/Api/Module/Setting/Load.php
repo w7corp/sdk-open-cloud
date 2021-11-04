@@ -16,23 +16,23 @@ use W7\Sdk\OpenCloud\Api\Module\Build;
 
 class Load extends Build
 {
-	protected $apiPath = '/module/setting/index';
-	protected $acid;
+    protected $apiPath = '/module/setting/index';
+    protected $acid;
 
-	public function get()
-	{
-		$this->postData['acid']        = $this->acid;
-		$this->postData['module_name'] = $this->name;
-		return parent::get();
-	}
+    public function get()
+    {
+        $this->postData['acid']        = $this->acid;
+        $this->postData['module_name'] = $this->name;
+        return parent::get();
+    }
 
-	/**
-	 * @param $acid
-	 * @return Load
-	 */
-	public function setAcid($acid)
-	{
-		$this->acid = $acid;
-		return $this;
-	}
+    /**
+     * @param $acid
+     * @return Load
+     */
+    public function setAcid($acid)
+    {
+        $this->acid = $acid;
+        return $this;
+    }
 }

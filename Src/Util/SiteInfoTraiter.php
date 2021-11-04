@@ -16,18 +16,18 @@ use W7\Sdk\OpenCloud\Message\SiteInfo;
 
 trait SiteInfoTraiter
 {
-	/**
-	 * @var SiteInfo
-	 */
-	protected $siteInfo;
+    /**
+     * @var SiteInfo
+     */
+    protected $siteInfo;
 
-	/**
-	 * @param SiteInfo $siteInfo
-	 * @return $this
-	 */
-	public function setSiteInfo(SiteInfo $siteInfo)
-	{
-		$this->siteInfo = $siteInfo;
-		return $this;
-	}
+    /**
+     * @param SiteInfo $siteInfo
+     * @return $this
+     */
+    public function setSiteInfo(SiteInfo $siteInfo)
+    {
+        $this->siteInfo = $siteInfo;
+        return $this;
+    }
 }

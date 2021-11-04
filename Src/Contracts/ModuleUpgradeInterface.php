@@ -14,13 +14,13 @@ namespace W7\Sdk\OpenCloud\Contracts;
 
 interface ModuleUpgradeInterface
 {
-	/**
-	 * @return array
-	 */
-	public function database(): array;
-	
-	/**
-	 * @return bool
-	 */
-	public function script(): bool;
+    /**
+     * @return array
+     */
+    public function database(): array;
+    
+    /**
+     * @return bool
+     */
+    public function script(): bool;
 }

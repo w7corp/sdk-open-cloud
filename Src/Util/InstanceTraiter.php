@@ -14,13 +14,13 @@ namespace W7\Sdk\OpenCloud\Util;
 
 trait InstanceTraiter
 {
-	private static $instance;
+    private static $instance;
 
-	public static function instance()
-	{
-		if (!isset(self::$instance)) {
-			self::$instance = new static();
-		}
-		return self::$instance;
-	}
+    public static function instance()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new static();
+        }
+        return self::$instance;
+    }
 }

@@ -14,6 +14,6 @@ namespace W7\Sdk\OpenCloud\Cache;
 
 interface CacheInterface
 {
-	public function save($key, $data);
-	public function load($key);
+    public function save($key, $data);
+    public function load($key);
 }

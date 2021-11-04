@@ -18,34 +18,34 @@ use W7\Sdk\OpenCloud\Util\SiteInfoTraiter;
 
 class Info extends We7Request
 {
-	protected $apiPath = '/module/info';
-	protected $method  = 'module.info';
-	protected $name;
+    protected $apiPath = '/module/info';
+    protected $method  = 'module.info';
+    protected $name;
 
-	use SiteInfoTraiter;
+    use SiteInfoTraiter;
 
-	public function get()
-	{
-		if (empty($this->siteInfo)) {
-			throw new ParamsErrorException('缺少站点信息参数');
-		}
-		if (empty($this->name)) {
-			throw new ParamsErrorException('缺点模块名称');
-		}
-		$data           = $this->siteInfo->toArray();
-		$data['module'] = $this->name;
-		$data['method'] = $data['method'] ?? $this->method;
-		return parent::post($data);
-	}
+    public function get()
+    {
+        if (empty($this->siteInfo)) {
+            throw new ParamsErrorException('缺少站点信息参数');
+        }
+        if (empty($this->name)) {
+            throw new ParamsErrorException('缺点模块名称');
+        }
+        $data           = $this->siteInfo->toArray();
+        $data['module'] = $this->name;
+        $data['method'] = $data['method'] ?? $this->method;
+        return parent::post($data);
+    }
 
-	/**
-	 * 要获取数据的模块名称
-	 * @param $name
-	 * @return $this
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-		return $this;
-	}
+    /**
+     * 要获取数据的模块名称
+     * @param $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 }

@@ -20,83 +20,87 @@ use W7\Sdk\OpenCloud\Util\Shipping;
 
 abstract class We7Request extends Request
 {
-	protected $apiUrl = 'http://api.w7.cc/';
-	protected $apiPath;
-	protected $transToken;
+    protected $apiUrl = 'http://api.w7.cc/';
+    protected $apiPath;
+    protected $transToken;
     /** @var CacheInterface $apiCache */
     protected $apiCache;
     protected $apiCacheTtl;
 
-	/**
-	 * transttoken通过 site.token接口获取
-	 * 请求接口时附加上此值，接口返回数据，都将以直接返回的方式，不会推送数据
-	 * @param $transToken
-	 * @return $this
-	 */
-	public function setTransToken($transToken)
-	{
-		$this->transToken = $transToken;
-		return $this;
-	}
+    /**
+     * transttoken通过 site.token接口获取
+     * 请求接口时附加上此值，接口返回数据，都将以直接返回的方式，不会推送数据
+     * @param $transToken
+     * @return $this
+     */
+    public function setTransToken($transToken)
+    {
+        $this->transToken = $transToken;
+        return $this;
+    }
 
-	protected function post(array $data)
-	{
-		if (empty($this->apiPath)) {
-			throw new ApiErrorException('接口地址不完整');
-		}
+    protected function post(array $data)
+    {
+        if (empty($this->apiPath)) {
+            throw new ApiErrorException('接口地址不完整');
+        }
 
-		$header = [
-			'encode' => 'base64',
-		];
+        $header = [
+            'encode' => 'base64',
+        ];
 
-		if (!empty($this->transToken)) {
-			$data['token'] = $this->transToken;
-		}
-		try {
-            $apiCacheKey = $this->getApiCacheKey(md5($this->apiPath . implode('', $data)));
-            $cache = $this->apiCache->get($apiCacheKey);
-            if (!empty($cache)) {
-                return $cache;
+        if (!empty($this->transToken)) {
+            $data['token'] = $this->transToken;
+        }
+        try {
+            if ($this->apiCache instanceof CacheInterface) {
+                $apiCacheKey = $this->getApiCacheKey(md5($this->apiPath . implode('', $data)));
+                $cache = $this->apiCache->get($apiCacheKey);
+                if (!empty($cache)) {
+                    return $cache;
+                }
             }
-			$response = $this->getClient()->post(sprintf('%s%s', $this->apiUrl, trim($this->apiPath, '/')), [
-				'form_params' => $data,
-				'headers'     => $header,
-			]);
-			$this->response        = $response;
-			$this->responseContent = $content = $response->getBody()->getContents();
+            $response = $this->getClient()->post(sprintf('%s%s', $this->apiUrl, trim($this->apiPath, '/')), [
+                'form_params' => $data,
+                'headers'     => $header,
+            ]);
+            $this->response        = $response;
+            $this->responseContent = $content = $response->getBody()->getContents();
             $result = $this->decode($data['method'] ?? '', $content);
-            $this->apiCache->set($apiCacheKey, $result, $this->apiCacheTtl);
-			return $result;
-		} catch (RequestException $e) {
-			$response = $e->getResponse();
-			if (empty($response)) {
-				throw new \Exception($e->getMessage());
-			}
+            if ($this->apiCache instanceof CacheInterface) {
+               $this->apiCache->set($apiCacheKey, $result, $this->apiCacheTtl);
+            }
+            return $result;
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if (empty($response)) {
+                throw new \Exception($e->getMessage());
+            }
 
-			$statusCode = $e->getResponse()->getStatusCode();
-			$content    = $e->getResponse()->getBody()->getContents();
-			$message    = json_decode($content, true);
-			if ('501' == $statusCode) {
-				throw new SiteRegisteredException($message['error'], $statusCode);
-			}
-			if ('502' == $statusCode) {
-				throw new \Exception('502 Bad Gateway', $statusCode);
-			}
-			if (!is_null($message) && $message) {
-				throw new \Exception($message['error'], $statusCode);
-			}
-			return $this->decode($data['method'] ?? '', $content);
-		}
-	}
+            $statusCode = $e->getResponse()->getStatusCode();
+            $content    = $e->getResponse()->getBody()->getContents();
+            $message    = json_decode($content, true);
+            if ('501' == $statusCode) {
+                throw new SiteRegisteredException($message['error'], $statusCode);
+            }
+            if ('502' == $statusCode) {
+                throw new \Exception('502 Bad Gateway', $statusCode);
+            }
+            if (!is_null($message) && $message) {
+                throw new \Exception($message['error'], $statusCode);
+            }
+            return $this->decode($data['method'] ?? '', $content);
+        }
+    }
 
-	protected function decode($method, $response)
-	{
-		if (!empty($this->cache)) {
-			return Shipping::instance()->decode($response, $this->cache->load($method));
-		} else {
-			return Shipping::instance()->decode($response, '');
-		}
-	}
+    protected function decode($method, $response)
+    {
+        if (!empty($this->cache)) {
+            return Shipping::instance()->decode($response, $this->cache->load($method));
+        } else {
+            return Shipping::instance()->decode($response, '');
+        }
+    }
     
     private function getApiCacheKey(string $key)
     {
