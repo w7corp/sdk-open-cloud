@@ -68,6 +68,9 @@ abstract class We7Request extends Request
             $this->responseContent = $content = $response->getBody()->getContents();
             $result = $this->decode($data['method'] ?? '', $content);
             if ($this->apiCache instanceof CacheInterface) {
+                if (isset($result['expire_time']) && $result['expire_time'] > 0) {
+                    $this->apiCacheTtl = $result['expire_time'] - (time() + 200);
+                }
                $this->apiCache->set($apiCacheKey, $result, $this->apiCacheTtl);
             }
             return $result;
