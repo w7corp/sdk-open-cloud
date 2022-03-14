@@ -26,7 +26,7 @@ class Download extends We7Request
     protected $apiPath = '/util/shipping/index';
     protected $method  = 'application.shipping';
     private $path;
-    private $type = 'module';
+    private $type = '';
 
     /**
      * 下载一个文件
@@ -60,6 +60,17 @@ class Download extends We7Request
     public function setPath($path)
     {
         $this->path = $path;
+        return $this;
+    }
+    
+    /**
+     * 设置下载类型：系统文件（默认为空）、应用文件（module）、模板文件（theme）
+     * @param $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
         return $this;
     }
 
