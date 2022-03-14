@@ -54,7 +54,7 @@ abstract class We7Request extends Request
         }
         try {
             if ($this->apiCache instanceof CacheInterface) {
-                $apiCacheKey = $this->getApiCacheKey(md5($this->apiPath . implode('', $data)));
+                $apiCacheKey = $this->getApiCacheKey(md5($this->apiPath . json_encode($data)));
                 $cache = $this->apiCache->get($apiCacheKey);
                 if (!empty($cache)) {
                     return $cache;
