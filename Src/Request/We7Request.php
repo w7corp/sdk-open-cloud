@@ -20,7 +20,7 @@ use W7\Sdk\OpenCloud\Util\Shipping;
 
 abstract class We7Request extends Request
 {
-    protected $apiUrl = 'http://openapi.w7.cc/';
+    protected $apiUrl = 'http://api.w7.cc/';
     protected $apiPath;
     protected $transToken;
     /** @var CacheInterface $apiCache */
