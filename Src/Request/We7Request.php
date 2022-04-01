@@ -107,7 +107,7 @@ abstract class We7Request extends Request
     
     private function getApiCacheKey(string $key)
     {
-        return 'w7_api_' . $key;
+        return 'w7:api_' . $key;
     }
     
     public function withCache(CacheInterface $cache)
