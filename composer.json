@@ -19,7 +19,7 @@
 		"guzzlehttp/guzzle": "^6.3|^7.0",
 		"guzzlehttp/guzzle-services": "^1.1",
 		"illuminate/support": "*",
-		"league/flysystem": "^2.0|^3.0",
+		"league/flysystem": "*",
 		"ext-json": "*",
 		"ext-curl": "*",
 		"ext-zlib": "*"
