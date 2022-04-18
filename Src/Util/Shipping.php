@@ -68,7 +68,7 @@ class Shipping
 
             $data = $fileContent;
             if (empty($data)) {
-                throw new ApiErrorException('没有接收到服务器的传输的数据.');
+                throw new ApiErrorException('没有接收到服务器的传输的数据，您可以尝试更新缓存后重试。');
             }
         }
         if (!is_array($data)) {

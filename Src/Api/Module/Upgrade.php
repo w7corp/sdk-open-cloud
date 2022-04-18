@@ -1,9 +1,9 @@
 <?php
 
 /**
- * WeEngine Cloud SDK System
+ * WeEngine System
  *
- * (c) We7Team 2019 <https://www.w7.cc>
+ * (c) We7Team 2022 <https://www.w7.cc>
  *
  * This is not a free software
  * Using it under the license terms
@@ -16,11 +16,10 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use W7\Sdk\OpenCloud\Contracts\ModuleUpgradeInterface;
 use W7\Sdk\OpenCloud\Exception\ApiErrorException;
-use W7\Sdk\OpenCloud\Exception\ParamsErrorException;
 
 class Upgrade
 {
-    const UPGRADE_TYPE_UP = 'Up';
+    const UPGRADE_TYPE_UP   = 'Up';
     const UPGRADE_TYPE_DOWN = 'Down';
     protected $version;
     protected $name;
@@ -87,7 +86,7 @@ class Upgrade
     
     public function downScriptAndDatabase(string $name, string $currentVersion, callable $callback)
     {
-        $database = [];
+        $database   = [];
         $classNames = $this->downInit($name, $currentVersion);
         foreach ($classNames as $className) {
             if (1 === version_compare($className['version'], $currentVersion)) {
