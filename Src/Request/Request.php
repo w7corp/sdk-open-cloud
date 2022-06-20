@@ -91,6 +91,11 @@ class Request
         !defined('W7_CLOUD_SDK_AUTHKEY') && define('W7_CLOUD_SDK_AUTHKEY', $authCode);
     }
 
+    public function setApiUrl($url) {
+        $this->apiUrl = $url;
+        return $this;
+    }
+
     public function getClient()
     {
         if (!$this->httpClient) {
