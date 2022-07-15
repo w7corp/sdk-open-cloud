@@ -54,7 +54,7 @@ class Upgrade
             if (self::UPGRADE_TYPE_UP == $this->upgradeType && 1 !== version_compare($dirVersion, $currentVersion)) {
                 continue;
             }
-            if (self::UPGRADE_TYPE_DOWN == $this->upgradeType && 1 === version_compare($currentVersion, $dirVersion)) {
+            if (self::UPGRADE_TYPE_DOWN == $this->upgradeType && 1 === version_compare($dirVersion, $currentVersion)) {
                 continue;
             }
             $className = '\W7\Addons\\' . $name . '\Upgrade' . str_replace('.', '', $dirVersion) . '\\' . $this->upgradeType;
@@ -97,10 +97,11 @@ class Upgrade
                 continue;
             }
             $down->script();
-            if (!is_array($down->database())) {
+            $result = $down->database();
+            if (!is_array($result)) {
                 throw new ApiErrorException('卸载脚本内数据库函数返回有误(返回必须是个数组),请联系开发者处理');
             }
-            $database = array_merge($database, $down->database());
+            $database = array_merge($database, $result);
             $down     = null;
         }
         $callback($database);
