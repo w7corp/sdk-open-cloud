@@ -129,10 +129,11 @@ class Upgrade
             if (!($up instanceof ModuleUpgradeInterface)) {
                 continue;
             }
-            if (!is_array($up->database())) {
+            $result = $down->database();
+            if (!is_array($result)) {
                 throw new ApiErrorException('升级脚本内数据库函数返回有误(返回必须是个数组),请联系开发者处理');
             }
-            $result = $callback($up->database());
+            $result = $callback($result);
             $up     = null;
         }
         return $result;
