@@ -18,12 +18,11 @@
 	"require": {
 		"guzzlehttp/guzzle": "^6.3|^7.0",
 		"guzzlehttp/guzzle-services": "^1.1",
-		"illuminate/support": "*",
+		"illuminate/support": "^8.0",
 		"league/flysystem": "*",
 		"ext-json": "*",
 		"ext-curl": "*",
-		"ext-zlib": "*",
-		"vlucas/phpdotenv": "^5.4"
+		"ext-zlib": "*"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^2.18",
