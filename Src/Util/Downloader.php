@@ -6,7 +6,7 @@ class Downloader {
 	static function downloadChunk($url, $offset, $size, $headers = array(), $timeout = 10) {
 		$urlInfo = self::parseUrl($url);
 		if (!$urlInfo['host']) {
-			throw new Exception('Url is Invalid');
+			throw new \Exception('Url is Invalid');
 		}
 
 		// default header
@@ -21,11 +21,7 @@ class Downloader {
 		// merge heade
 		$headers = array_merge($def_headers, $headers);
 
-		try {
-			return self::downloadContent($urlInfo['host'], $urlInfo['port'], $urlInfo['request'], $offset, $size, 10240, $headers, $timeout);
-		} catch (Exception $e) {
-			throw new Exception($e->getMessage());
-		}
+		return self::downloadContent($urlInfo['host'], $urlInfo['port'], $urlInfo['request'], $offset, $size, 10240, $headers, $timeout);
 	}
 
 	/**
