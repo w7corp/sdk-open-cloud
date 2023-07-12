@@ -17,6 +17,7 @@ use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Command\Guzzle\Parameter;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use W7\Sdk\OpenCloud\Exception\ResponseException;
@@ -230,7 +231,7 @@ abstract class ServiceRequest extends Request
 		 */
 		$operation = $this->getServiceClient()->getDescription()->getOperation($operatorName);
 		$parameters = $operation->getParams();
-		return collect($parameters)->filter(function (Parameter $parameter) {
+		return (new Collection($parameters))->filter(function (Parameter $parameter) {
 			return $parameter->getLocation() === self::LOCATION_URI;
 		})->keyBy(function (Parameter $parameter) {
 			return $parameter->getName();
