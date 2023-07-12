@@ -96,7 +96,7 @@ class Attach extends ServiceRequest {
 		}
 	}
 
-	public function downdloadFileFromRemoteZip($zipUrl, $fileName, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64 = 0) {
+	public function downloadFileFromRemoteZip($zipUrl, $fileName, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64 = 0) {
 		$cacheKey = 'sdk:open_cloud:attach:dir:cache:' . md5($zipUrl);
 		$dirInfo = $this->cache ? $this->cache->load($cacheKey) : [];
 
