@@ -96,7 +96,7 @@ class Attach extends ServiceRequest {
 		}
 	}
 
-	public function downloadFileFromRemoteZip($zipUrl, $fileName, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64 = 0) {
+	public function getFileContentFromRemoteZip($zipUrl, $fileName, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64 = 0) {
 		$cacheKey = 'sdk:open_cloud:attach:dir:cache:' . md5($zipUrl);
 		$dirInfo = $this->cache ? $this->cache->load($cacheKey) : [];
 
@@ -122,5 +122,11 @@ class Attach extends ServiceRequest {
 
 
 		return $this->unZipContent(Downloader::downloadChunk($zipUrl, $dirInfo[$fileName]['offset'], $dirInfo[$fileName]['size']), $dirInfo[$fileName]['compress']['method']);
+	}
+
+	public function downloadFileFromRemoteZip($zipUrl, $fileName, $savePath, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64 = 0) {
+		$content = $this->getFileContentFromRemoteZip($zipUrl, $fileName, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64);
+
+		file_put_contents($savePath, $content);
 	}
 }
