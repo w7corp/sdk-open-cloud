@@ -22,7 +22,8 @@
 		"league/flysystem": "*",
 		"ext-json": "*",
 		"ext-curl": "*",
-		"ext-zlib": "*"
+		"ext-zlib": "*",
+		"nelexa/zip": "^3.3"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^2.18",
