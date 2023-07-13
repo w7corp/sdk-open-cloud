@@ -66,7 +66,7 @@ abstract class ServiceRequest extends Request
 
 	abstract public function getApiMap();
 
-	protected function getDefaultServiceDescription() : array
+	protected function getDefaultServiceDescription()
 	{
 		//处理默认数据
 		return [
@@ -167,7 +167,7 @@ abstract class ServiceRequest extends Request
 			if (method_exists($e, 'getResponse') && $e->getResponse()) {
 				$content = $e->getResponse()->getBody()->getContents();
 				$data = $this->decode($content);
-				throw new ResponseException($data['error'] ?? $content, $e->getResponse()->getStatusCode());
+				throw new ResponseException($data['error'] ?: $content, $e->getResponse()->getStatusCode());
 			}
 
 			$message = '返回的数据格式不正确. ' . $e->getMessage();

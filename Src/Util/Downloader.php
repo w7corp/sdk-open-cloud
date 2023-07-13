@@ -36,8 +36,8 @@ class Downloader {
 			return false;
 		}
 
-		$urlInfo['port']    = $urlInfo['port'] ?? 80;
-		$urlInfo['query'] = $urlInfo['query'] ?? '';
+		$urlInfo['port']    = $urlInfo['port'] ?: 80;
+		$urlInfo['query'] = $urlInfo['query'] ?: '';
 		$urlInfo['request'] = $urlInfo['path'] . ($urlInfo['query'] ? ('?' . $urlInfo['query']) : '');
 		return $urlInfo;
 	}
