@@ -36,8 +36,8 @@ class Downloader {
 			return false;
 		}
 
-		$urlInfo['port']    = $urlInfo['port'] ?? 80;
-		$urlInfo['query'] = $urlInfo['query'] ?? '';
+		$urlInfo['port']    = $urlInfo['port'] ?: 80;
+		$urlInfo['query'] = $urlInfo['query'] ?: '';
 		$urlInfo['request'] = $urlInfo['path'] . ($urlInfo['query'] ? ('?' . $urlInfo['query']) : '');
 		return $urlInfo;
 	}
@@ -55,7 +55,7 @@ class Downloader {
 	 * @param $timeout
 	 */
 	protected static function downloadContent($host, $port, $path, $offset, $size, $speed, &$headers, $timeout) {
-        $speed = min($speed, $size);
+		$speed = min($speed, $size);
 		$request = self::buildHeader('GET', $path, $headers, $offset, $size);
 		$fsocket = @fsockopen($host, $port, $errno, $errstr, $timeout);
 		stream_set_blocking($fsocket, TRUE);

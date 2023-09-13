@@ -127,6 +127,6 @@ class Attach extends ServiceRequest {
 	public function downloadFileFromRemoteZip($zipUrl, $fileName, $savePath, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64 = 0) {
 		$content = $this->getFileContentFromRemoteZip($zipUrl, $fileName, $zipDirContentOffset, $zipDirContentSize, $zipFilesCount, $zip64);
 
-		file_put_contents($savePath, $content);
+		return file_put_contents($savePath, $content);
 	}
 }
