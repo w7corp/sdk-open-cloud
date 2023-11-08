@@ -17,13 +17,12 @@ use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Command\Guzzle\Parameter;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 use W7\Sdk\OpenCloud\Exception\ResponseException;
 use W7\Sdk\OpenCloud\Request\Middleware\Service\ServiceExtendMiddleware;
 use W7\Sdk\OpenCloud\Request\Middleware\Service\ServiceNameMiddleware;
 use W7\Sdk\OpenCloud\Util\AppTrait;
+use W7\Sdk\OpenCloud\Util\Common;
 
 abstract class ServiceRequest extends Request
 {
@@ -184,7 +183,7 @@ abstract class ServiceRequest extends Request
 
 		$command['appid'] = $this->appId;
 		$command['timestamp'] = time();
-		$command['nonce'] = Str::random();
+		$command['nonce'] = Common::random(16);
 		foreach ($command->toArray() as $key => $value) {
 			if (!in_array($key, $commandParams) && strpos($key, '@') === false) {
 				throw new InvalidArgumentException("参数列表不一致 {$key}");
@@ -231,10 +230,14 @@ abstract class ServiceRequest extends Request
 		 */
 		$operation = $this->getServiceClient()->getDescription()->getOperation($operatorName);
 		$parameters = $operation->getParams();
-		return (new Collection($parameters))->filter(function (Parameter $parameter) {
-			return $parameter->getLocation() === self::LOCATION_URI;
-		})->keyBy(function (Parameter $parameter) {
-			return $parameter->getName();
-		})->keys()->toArray();
+        $parameters = array_filter($parameters, function (Parameter $parameter) {
+            return $parameter->getLocation() === self::LOCATION_URI;
+        });
+        $params = [];
+        foreach ($parameters as $parameter) {
+            $params[] = $parameter->getName();
+        }
+
+		return $params;
 	}
 }
